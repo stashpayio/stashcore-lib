@@ -175,5 +175,10 @@ console.log(transaction.getLockTime());
 // output similar to: Sun Nov 30 2025 00:00:00 GMT-0300 (ART)
 ```
 
+## Special transactions 
+
+[DIP2](https://github.com/dashpay/dips/blob/master/dip-0002.md) introduced special transactions. Special transactions are transaction that carries some extra payload.
+The example for that transaction can be 
+
 ## Upcoming changes
 We're debating an API for Merge Avoidance, CoinJoin, Smart contracts, CoinSwap, and Stealth Addresses. We're expecting to have all of them by some time in 2015. Payment channel creation is available in the [dashcore-channel](https://github.com/dashevo/dashcore-channel) module.
