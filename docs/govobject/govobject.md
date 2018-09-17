@@ -17,7 +17,7 @@
 
 
 # Governance Object
-A Governance Object (or "govObject") is a generic structure introduced in Dash Core v12.1 to allow for the creation of Budget Proposals, Triggers, and Watch Dogs. Class inheritance has been utilized to extend this generic object into a "Proposal" which is outlined throughout the remainder of this document. 
+A Governance Object (or "govObject") is a generic structure introduced in Stash Core v12.1 to allow for the creation of Budget Proposals, Triggers, and Watch Dogs. Class inheritance has been utilized to extend this generic object into a "Proposal" which is outlined throughout the remainder of this document. 
 
 ### `new GovObject([govObjectData])`
 
@@ -33,7 +33,7 @@ Allow to create a govObj from a json or stringifiedJSON obj
 ####  `fromString`
 Allow to create a govObj from a hex string
 ####  `checkedSerialize`
-Return a hex string that can be used in dashd CLI
+Return a hex string that can be used in stashd CLI
 ####  `serialize`
 Return a hex string
 ####  `inspect`

@@ -1,5 +1,5 @@
 
 
-var bitcoreTasks = require('bitcore-build-dash');
+var bitcoreTasks = require('bitcore-build-stash');
 
-bitcoreTasks('lib-dash');
+bitcoreTasks('lib-stash');

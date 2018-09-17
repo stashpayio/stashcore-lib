@@ -1,17 +1,17 @@
 {
-  "name": "bitcore-lib-dash",
-  "main": "./bitcore-lib-dash.min.js",
+  "name": "bitcore-lib-stash",
+  "main": "./bitcore-lib-stash.min.js",
   "version": "0.15.3",
-  "homepage": "https://github.com/dashevo/bitcore-lib-dash",
+  "homepage": "https://github.com/stashevo/bitcore-lib-stash",
   "authors": [
-    "Dash", "BitPay, Inc."
+    "Stash", "BitPay, Inc."
   ],
-  "description": "A pure, powerful core for your Dash project.",
+  "description": "A pure, powerful core for your Stash project.",
   "moduleType": [
     "globals"
   ],
   "keywords": [
-    "dash",
+    "stash",
     "bitcoin",
     "bitcore",
     "btc",

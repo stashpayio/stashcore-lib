@@ -26,9 +26,9 @@ describe('Networks', function() {
     networks.testnet.networkMagic.should.deep.equal(new Buffer('cee2caff', 'hex'));
     networks.testnet.port.should.equal(19999);
     networks.testnet.dnsSeeds.should.deep.equal([
-     'testnet-seed.darkcoin.io',
-     'testnet-seed.dashdot.io',
-     'test.dnsseed.masternode.io'
+     'testdnsseed1.stashpay.org',
+     'testdnsseed2.stashpay.org',
+     'testdnsseed3.stashpay.org'
     ]);
   });
 
