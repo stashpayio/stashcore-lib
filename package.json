@@ -1,6 +1,6 @@
 {
   "name": "@stashcore/stashcore-lib",
-  "version": "0.15.5",
+  "version": "0.15.15",
   "description": "A pure and powerful JavaScript Stash library.",
   "author": "BitPay <dev@bitpay.com>",
   "main": "index.js",
