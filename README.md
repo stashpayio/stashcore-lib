@@ -2,8 +2,8 @@ Stashcore Library
 ================
 
 [![NPM Package](https://img.shields.io/npm/v/@stashcore/stashcore-lib.svg?style=flat-square)](https://www.npmjs.org/package/@stashcore/stashcore-lib)
-[![Build Status](https://img.shields.io/travis/stashevo/stashcore-lib.svg?branch=master&style=flat-square)](https://travis-ci.org/stashevo/stashcore-lib)
-[![Coverage Status](https://img.shields.io/coveralls/stashevo/stashcore-lib.svg?style=flat-square)](https://coveralls.io/github/stashevo/stashcore-lib?branch=master)
+[![Build Status](https://img.shields.io/travis/stashcore/stashcore-lib.svg?branch=master&style=flat-square)](https://travis-ci.org/stashcore/stashcore-lib)
+[![Coverage Status](https://img.shields.io/coveralls/stashcore/stashcore-lib.svg?style=flat-square)](https://coveralls.io/github/stashcore/stashcore-lib?branch=master)
 
 A pure and powerful JavaScript Stash library.
 
@@ -58,17 +58,17 @@ Some examples can be found [here](docs/examples.md), below is a list of direct l
 
 Some functionality is implemented as a module that can be installed separately:
 
-* [Payment Protocol Support](https://github.com/stashevo/stashcore-payment-protocol)
-* [Peer to Peer Networking](https://github.com/stashevo/stashcore-p2p)
-* [Stash Core JSON-RPC](https://github.com/stashevo/stashd-rpc)
-* [Payment Channels](https://github.com/stashevo/stashcore-channel)
-* [Mnemonics](https://github.com/stashevo/stashcore-mnemonic)
-* [Elliptical Curve Integrated Encryption Scheme](https://github.com/stashevo/bitcore-ecies-stash)
-* [Signed Messages](https://github.com/stashevo/bitcore-message-stash)
+* [Payment Protocol Support](https://github.com/stashpayio/stashcore-payment-protocol)
+* [Peer to Peer Networking](https://github.com/stashpayio/stashcore-p2p)
+* [Stash Core JSON-RPC](https://github.com/stashpayio/stashd-rpc)
+* [Payment Channels](https://github.com/stashpayio/stashcore-channel)
+* [Mnemonics](https://github.com/stashpayio/stashcore-mnemonic)
+* [Elliptical Curve Integrated Encryption Scheme](https://github.com/stashpayio/bitcore-ecies-stash)
+* [Signed Messages](https://github.com/stashpayio/bitcore-message-stash)
 
 ## Contributing
 
-Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/stashevo/stashcore-lib/blob/master/CONTRIBUTING.md) file.
+Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/stashpayio/stashcore-lib/blob/master/CONTRIBUTING.md) file.
 
 ## Building the Browser Bundle
 
@@ -94,7 +94,7 @@ This will generate files named `stashcore-lib.js` and `stashcore-lib.min.js` in 
 ## Development & Tests
 
 ```sh
-git clone https://github.com/stashevo/stashcore-lib
+git clone https://github.com/stashpayio/stashcore-lib
 cd stashcore-lib
 npm install
 ```

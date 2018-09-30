@@ -176,4 +176,4 @@ console.log(transaction.getLockTime());
 ```
 
 ## Upcoming changes
-We're debating an API for Merge Avoidance, CoinJoin, Smart contracts, CoinSwap, and Stealth Addresses. We're expecting to have all of them by some time in 2015. Payment channel creation is available in the [stashcore-channel](https://github.com/stashevo/stashcore-channel) module.
+We're debating an API for Merge Avoidance, CoinJoin, Smart contracts, CoinSwap, and Stealth Addresses. We're expecting to have all of them by some time in 2015. Payment channel creation is available in the [stashcore-channel](https://github.com/stashpayio/stashcore-channel) module.

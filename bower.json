@@ -2,7 +2,7 @@
   "name": "bitcore-lib-stash",
   "main": "./bitcore-lib-stash.min.js",
   "version": "0.15.3",
-  "homepage": "https://github.com/stashevo/bitcore-lib-stash",
+  "homepage": "https://github.com/stashpayio/bitcore-lib-stash",
   "authors": [
     "Stash", "BitPay, Inc."
   ],
