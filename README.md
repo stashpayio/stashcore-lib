@@ -1,18 +1,23 @@
-Stashcore Library
-================
+# Stashcore Library
 
-[![NPM Package](https://img.shields.io/npm/v/@stashcore/stashcore-lib.svg?style=flat-square)](https://www.npmjs.org/package/@stashcore/stashcore-lib)
-[![Build Status](https://img.shields.io/travis/stashcore/stashcore-lib.svg?branch=master&style=flat-square)](https://travis-ci.org/stashcore/stashcore-lib)
-[![Coverage Status](https://img.shields.io/coveralls/stashcore/stashcore-lib.svg?style=flat-square)](https://coveralls.io/github/stashcore/stashcore-lib?branch=master)
+[![Build Status](https://img.shields.io/travis/stashpayio/stashcore-lib.svg?branch=master)](https://travis-ci.org/stashpayio/stashcore-lib)
+[![NPM Package](https://img.shields.io/npm/v/@stashcore/stashcore-lib.svg)](https://www.npmjs.org/package/@stashcore/stashcore-lib)
 
-A pure and powerful JavaScript Stash library.
-
-## Principles
+> A pure and powerful JavaScript Stash library.
 
 Stash is a powerful new peer-to-peer platform for the next generation of financial technology. The decentralized nature of the Stash network allows for highly resilient Stash infrastructure, and the developer community needs reliable, open-source tools to implement Stash apps and services.
 
-## Get Started
+## Table of Contents
+- [Install](#install)
+- [Usage](#usage)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Install
+
 ### NodeJS
+
 ```
 npm install @stashcore/stashcore-lib
 ```
@@ -21,40 +26,30 @@ npm install @stashcore/stashcore-lib
 
 See the section below to generate your own bundle, or download the pre-generated [minified file](dist/stashcore-lib.min.js)
 
+#### Building the Browser Bundle
 
-## Docs
+To build a stashcore-lib full bundle for the browser:
 
-* [Addresses](docs/address.md)
-* [Block](docs/block.md)
-* [Crypto](docs/crypto.md)
-* [Encoding](docs/encoding.md)
-* [Hierarchically-derived Private and Public Keys](docs/hierarchical.md)
-* [Networks](docs/networks.md)
-* [PrivateKey](docs/privatekey.md)
-* [PublicKey](docs/publickey.md)
-* [Script](docs/script.md)
-* [Transaction](docs/transaction.md)
-* [Using Different Units](docs/unit.md)
-* [Unspent Output](docs/unspentoutput.md)
-* [URI](docs/uri.md)
-* [Governance Object / Proposal](docs/govobject/govobject.md)
+```sh
+npm run build
+```
 
-## Examples
+This will generate files named `stashcore-lib.js` and `stashcore-lib.min.js` in the `dist/` folder.
 
-Some examples can be found [here](docs/examples.md), below is a list of direct links for some of them.
+## Usage
 
+### Browser
 
-* [Generate a random address](docs/examples.md#generate-a-random-address)
-* [Generate an address from a SHA256 hash](docs/examples.md#generate-a-address-from-a-sha256-hash)
-* [Import an address via WIF](docs/examples.md#import-an-address-via-wif)
-* [Create a Transaction](docs/examples.md#create-a-transaction)
-* [Sign a Stash message](docs/examples.md#sign-a-bitcoin-message)
-* [Verify a Stash message](docs/examples.md#verify-a-bitcoin-message)
-* [Create an OP RETURN transaction](docs/examples.md#create-an-op-return-transaction)
-* [Create a 2-of-3 multisig P2SH address](docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
-* [Spend from a 2-of-2 multisig P2SH address](docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
+```
+<script src='./dist/stashcore-lib.min.js' type="text/javascript"></script>
+<script>
+  const PrivateKey = stashcore.PrivateKey;
+  const privateKey = new PrivateKey();
+  const address = privateKey.toAddress().toString();
+</script>
+```
 
-## Modules
+### Modules
 
 Some functionality is implemented as a module that can be installed separately:
 
@@ -66,32 +61,7 @@ Some functionality is implemented as a module that can be installed separately:
 * [Elliptical Curve Integrated Encryption Scheme](https://github.com/stashpayio/bitcore-ecies-stash)
 * [Signed Messages](https://github.com/stashpayio/bitcore-message-stash)
 
-## Contributing
-
-Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/stashpayio/stashcore-lib/blob/master/CONTRIBUTING.md) file.
-
-## Building the Browser Bundle
-
-To build a stashcore-lib full bundle for the browser:
-
-```sh
-npm run build
-```
-
-This will generate files named `stashcore-lib.js` and `stashcore-lib.min.js` in the `dist/` folder.
-
-## Usage on Browser
-
-```
-<script src='./dist/stashcore-lib.min.js' type="text/javascript"></script>
-<script>
-  const PrivateKey = stashcore.PrivateKey;
-  const privateKey = new PrivateKey();
-  const address = privateKey.toAddress().toString();
-</script>
-```
-
-## Development & Tests
+### Development & Tests
 
 ```sh
 git clone https://github.com/stashpayio/stashcore-lib
@@ -105,8 +75,43 @@ Run all the tests:
 npm test
 ```
 
-You can also run just the Node.js tests with `npm run test:node`, just the browser tests with `npm run test:browser`
-or run a test coverage report with `npm run coverage`.
+You can also run just the Node.js tests with `npm run test:node`, just the browser tests with `npm run test:browser` or run a test coverage report with `npm run coverage`.
+
+## Documentation
+
+* [Addresses](docs/address.md)
+* [Block](docs/block.md)
+* [Crypto](docs/crypto.md)
+* [Encoding](docs/encoding.md)
+* [Hierarchically-derived Private and Public Keys](docs/hierarchical.md)
+* [Mnemonic](docs/mnemonic.md)
+* [Networks](docs/networks.md)
+* [PrivateKey](docs/privatekey.md)
+* [PublicKey](docs/publickey.md)
+* [Script](docs/script.md)
+* [Transaction](docs/transaction.md)
+* [Using Different Units](docs/unit.md)
+* [Unspent Output](docs/unspentoutput.md)
+* [URI](docs/uri.md)
+* [Governance Object / Proposal](docs/govobject/govobject.md)
+
+### Examples
+
+Some examples can be found [here](docs/examples.md), below is a list of direct links for some of them.
+
+* [Generate a random address](docs/examples.md#generate-a-random-address)
+* [Generate an address from a SHA256 hash](docs/examples.md#generate-a-address-from-a-sha256-hash)
+* [Import an address via WIF](docs/examples.md#import-an-address-via-wif)
+* [Create a Transaction](docs/examples.md#create-a-transaction)
+* [Sign a Stash message](docs/examples.md#sign-a-bitcoin-message)
+* [Verify a Stash message](docs/examples.md#verify-a-bitcoin-message)
+* [Create an OP RETURN transaction](docs/examples.md#create-an-op-return-transaction)
+* [Create a 2-of-3 multisig P2SH address](docs/examples.md#create-a-2-of-3-multisig-p2sh-address)
+* [Spend from a 2-of-2 multisig P2SH address](docs/examples.md#spend-from-a-2-of-2-multisig-p2sh-address)
+
+## Contributing
+
+Please send pull requests for bug fixes, code optimization, and ideas for improvement. For more information on how to contribute, please refer to our [CONTRIBUTING](https://github.com/stashpayio/stashcore-lib/blob/master/CONTRIBUTING.md) file.
 
 ## License
 

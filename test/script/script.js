@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 'use strict';
 
 var should = require('chai').should();
@@ -823,12 +826,12 @@ describe('Script', function() {
     it('for a P2PKH address', function() {
       var address = Address.fromString('XxGJLCB7BBXAgA1AbgtNDMyVpQV9yXd7oB');
       var script = Script.buildPublicKeyHashOut(address);
-      expect(BufferUtil.equal(script.getData(), address.hashBuffer)).to.be.true();
+      expect(BufferUtil.equal(script.getData(), address.hashBuffer)).to.be.true;
     });
     it('for a P2SH address', function() {
       var address = Address.fromString('7hRXBxSmKqaJ6JfsVaSeZqAeyxvrxcHyV1');
       var script = new Script(address);
-      expect(BufferUtil.equal(script.getData(), address.hashBuffer)).to.be.true();
+      expect(BufferUtil.equal(script.getData(), address.hashBuffer)).to.be.true;
     });
     it('for a standard opreturn output', function() {
       expect(BufferUtil.equal(Script('OP_RETURN 1 0xFF').getData(), Buffer.from([255]))).to.be.true;

@@ -1,5 +1,0 @@
-./node_modules/*
-bitcore-lib-stash.js
-bitcore-lib-stash.min.js
-./test/*
-./dist/*

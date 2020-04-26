@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 'use strict';
 
 var expect = require('chai').expect;
@@ -17,15 +20,18 @@ describe('Networks', function() {
 
   it('will enable/disable regtest Network', function() {
     networks.enableRegtest();
-    networks.testnet.networkMagic.should.deep.equal(Buffer.from('f6cfb1d8', 'hex'));
+    networks.testnet.networkMagic.should.deep.equal(Buffer.from('fcc1b7dc', 'hex'));
     networks.testnet.port.should.equal(19994);
     networks.testnet.dnsSeeds.should.deep.equal([]);
     networks.testnet.regtestEnabled.should.equal(true);
+
     networks.disableRegtest();
-    networks.testnet.networkMagic.should.deep.equal(Buffer.from('efa2faf7', 'hex'));
+    networks.testnet.networkMagic.should.deep.equal(Buffer.from('cee2caff', 'hex'));
     networks.testnet.port.should.equal(19999);
     networks.testnet.dnsSeeds.should.deep.equal([
-      'testseed1.stashpay.io'
+     'testnet-seed.darkcoin.io',
+     'testnet-seed.stashdot.io',
+     'test.dnsseed.masternode.io'
     ]);
   });
 

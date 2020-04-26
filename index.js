@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 'use strict';
 
 var bitcore = module.exports;
@@ -11,8 +14,8 @@ bitcore.versionGuard = function(version) {
     console.warn(message);
   }
 };
-bitcore.versionGuard(global._bitcore);
-global._bitcore = bitcore.version;
+bitcore.versionGuard(global._stashcore);
+global._stashcore = bitcore.version;
 
 // crypto
 bitcore.crypto = {};
@@ -22,6 +25,7 @@ bitcore.crypto.Hash = require('./lib/crypto/hash');
 bitcore.crypto.Random = require('./lib/crypto/random');
 bitcore.crypto.Point = require('./lib/crypto/point');
 bitcore.crypto.Signature = require('./lib/crypto/signature');
+bitcore.Signer = require('./lib/crypto/signer');
 
 // encoding
 bitcore.encoding = {};
@@ -36,6 +40,8 @@ bitcore.util = {};
 bitcore.util.buffer = require('./lib/util/buffer');
 bitcore.util.js = require('./lib/util/js');
 bitcore.util.preconditions = require('./lib/util/preconditions');
+bitcore.util.hashUtil = require('./lib/util/hashutil');
+bitcore.util.merkleTree = require('./lib/util/merkletree');
 
 // errors thrown by the library
 bitcore.errors = require('./lib/errors');
@@ -44,6 +50,9 @@ bitcore.errors = require('./lib/errors');
 bitcore.Address = require('./lib/address');
 bitcore.Block = require('./lib/block');
 bitcore.MerkleBlock = require('./lib/block/merkleblock');
+bitcore.SimplifiedMNList = require('./lib/deterministicmnlist/SimplifiedMNList');
+bitcore.SimplifiedMNListDiff = require('./lib/deterministicmnlist/SimplifiedMNListDiff');
+bitcore.SimplifiedMNListEntry = require('./lib/deterministicmnlist/SimplifiedMNListEntry');
 bitcore.BlockHeader = require('./lib/block/blockheader');
 bitcore.HDPrivateKey = require('./lib/hdprivatekey.js');
 bitcore.HDPublicKey = require('./lib/hdpublickey.js');
@@ -56,7 +65,9 @@ bitcore.Transaction = require('./lib/transaction');
 bitcore.GovObject = require('./lib/govobject');
 bitcore.URI = require('./lib/uri');
 bitcore.Unit = require('./lib/unit');
-bitcore.Message = require('./lib/message')
+bitcore.Message = require('./lib/message');
+bitcore.Mnemonic = require('./lib/mnemonic');
+bitcore.BloomFilter = require('./lib/bloomfilter');
 
 // dependencies, subject to change
 bitcore.deps = {};

@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 'use strict';
 
 var should = require('chai').should();
@@ -5,8 +8,8 @@ var sinon = require('sinon');
 var bitcore = require('../');
 
 describe('#versionGuard', function() {
-  it('global._bitcore should be defined', function() {
-    should.equal(global._bitcore, bitcore.version);
+  it('global._stashcore should be defined', function() {
+    should.equal(global._stashcore, bitcore.version);
   });
 
   it('throw a warning if version is already defined', function() {

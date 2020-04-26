@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 'use strict';
 
 var chai = chai || require('chai');
@@ -17,19 +20,19 @@ describe('URI', function() {
     URI.parse.bind(URI, 'badURI').should.throw(TypeError);
 
     uri = URI.parse('stash:');
-    expect(uri.address).to.be.undefined();
-    expect(uri.amount).to.be.undefined();
-    expect(uri.otherParam).to.be.undefined();
+    expect(uri.address).to.be.undefined;
+    expect(uri.amount).to.be.undefined;
+    expect(uri.otherParam).to.be.undefined;
 
     uri = URI.parse('stash:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG');
     uri.address.should.equal('Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG');
-    expect(uri.amount).to.be.undefined();
-    expect(uri.otherParam).to.be.undefined();
+    expect(uri.amount).to.be.undefined;
+    expect(uri.otherParam).to.be.undefined;
 
     uri = URI.parse('stash:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG?amount=123.22');
     uri.address.should.equal('Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG');
     uri.amount.should.equal('123.22');
-    expect(uri.otherParam).to.be.undefined();
+    expect(uri.otherParam).to.be.undefined;
 
     uri = URI.parse('stash:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG?amount=123.22' +
                     '&other-param=something&req-extra=param');
@@ -87,7 +90,7 @@ describe('URI', function() {
       uri = URI.fromString('stash:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG?amount=123.22');
       uri.address.toString().should.equal('Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG');
       uri.amount.should.equal(12322000000);
-      expect(uri.otherParam).to.be.undefined();
+      expect(uri.otherParam).to.be.undefined;
     });
 
     it('parses a testnet address', function() {
@@ -99,7 +102,7 @@ describe('URI', function() {
     it('stores unknown parameters as "extras"', function() {
       uri = new URI('stash:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG?amount=1.2&other=param');
       uri.address.should.be.instanceof(bitcore.Address);
-      expect(uri.other).to.be.undefined();
+      expect(uri.other).to.be.undefined;
       uri.extras.other.should.equal('param');
     });
 
@@ -143,7 +146,7 @@ describe('URI', function() {
     });
     uri.address.should.be.instanceof(bitcore.Address);
     uri.amount.should.equal(120000000);
-    expect(uri.other).to.be.undefined();
+    expect(uri.other).to.be.undefined;
     uri.extras.other.should.equal('param');
 
     (function() {
@@ -224,7 +227,7 @@ describe('URI', function() {
   });
 
   it('should be case insensitive to protocol', function() {
-    var uri1 = new URI('StaSh:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG');
+    var uri1 = new URI('DaSh:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG');
     var uri2 = new URI('stash:Xo4vyw1FtA88rYPYjbNT9kwhVokHHsSuPG');
 
     uri1.address.toString().should.equal(uri2.address.toString());

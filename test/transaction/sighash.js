@@ -1,6 +1,10 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 'use strict';
 
 var chai = require('chai');
+var expect = chai.expect;
 var should = chai.should();
 var bitcore = require('../../');
 var Script = bitcore.Script;
@@ -26,7 +30,9 @@ describe('sighash', function() {
       var tx = new Transaction(txbuf);
 
       //make sure transacion to/from buffer is isomorphic
-      tx.uncheckedSerialize().should.equal(txbuf.toString('hex'));
+      var actual = tx.uncheckedSerialize();
+      var expected = txbuf.toString('hex');
+      actual.should.equal(expected);
 
       //sighash ought to be correct
       sighash.sighash(tx, nhashtype, nin, subscript).toString('hex').should.equal(sighashbuf.toString('hex'));
