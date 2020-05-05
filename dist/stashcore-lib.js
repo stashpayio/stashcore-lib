@@ -34874,14 +34874,15 @@ Transaction.prototype.toBufferWriter = function(writer) {
     output.toBufferWriter(writer);
   });
   writer.writeUInt32LE(this.nLockTime);
-
-  writer.writeVarintNum(this.joinSplits.length);
-  _.each(this.joinSplits, function(jsdesc) {
-    jsdesc.toBufferWriter(writer);
-  });
-  if (this.joinSplits.length > 0) {
-    writer.write(this.joinSplitPubKey);
-    writer.write(this.joinSplitSig);
+  if (this.version < 3) {
+    writer.writeVarintNum(this.joinSplits.length);
+    _.each(this.joinSplits, function(jsdesc) {
+      jsdesc.toBufferWriter(writer);
+    });
+    if (this.joinSplits.length > 0) {
+      writer.write(this.joinSplitPubKey);
+      writer.write(this.joinSplitSig);
+    }
   }
   if (this.isSpecialTransaction() && this.hasExtraPayload()) {
     var payload = Payload.serializeToBuffer(this.extraPayload);
@@ -34916,7 +34917,17 @@ Transaction.prototype.fromBufferReader = function(reader) {
     this.outputs.push(Output.fromBufferReader(reader));
   }
   this.nLockTime = reader.readUInt32LE();
+  if (this.version < 3) {
+    sizeJSDescs = reader.readVarintNum();
+    for (i = 0; i < sizeJSDescs; i++) {
+      this.joinSplits.push(JSDescription.fromBufferReader(reader));
+    }
 
+    if (sizeJSDescs > 0) {
+      this.joinSplitPubKey = reader.read(32);
+      this.joinSplitSig = reader.read(64);
+    }
+  }
   if (this.isSpecialTransaction() && !reader.finished()) {
     var extraPayloadSize = reader.readVarintNum();
     if (extraPayloadSize > 0) {
@@ -34948,16 +34959,18 @@ Transaction.prototype.toObject = Transaction.prototype.toJSON = function toObjec
     inputs: inputs,
     outputs: outputs,
     nLockTime: this.nLockTime
-  };  
-  var joinSplits = [];
-  this.joinSplits.forEach(function(joinSplit) {
-    joinSplits.push(joinSplit.toObject());
-  });
-  obj.joinSplits = joinSplits;
-  if (this.joinSplits.length > 0) {
-    obj.joinSplitPubKey = BufferUtil.reverse(this.joinSplitPubKey).toString('hex');
-    obj.joinSplitSig = this.joinSplitSig.toString('hex');
-  }  
+  };
+  if (this.version < 3) {
+    var joinSplits = [];
+    this.joinSplits.forEach(function(joinSplit) {
+      joinSplits.push(joinSplit.toObject());
+    });
+    obj.joinSplits = joinSplits;
+    if (this.joinSplits.length > 0) {
+      obj.joinSplitPubKey = BufferUtil.reverse(this.joinSplitPubKey).toString('hex');
+      obj.joinSplitSig = this.joinSplitSig.toString('hex');
+    }
+  }
   if (this._changeScript) {
     obj.changeScript = this._changeScript.toString();
   }
@@ -35018,11 +35031,14 @@ Transaction.prototype.fromObject = function fromObject(arg) {
   }
   this.nLockTime = transaction.nLockTime;
   this.version = transaction.version == null ? CURRENT_VERSION : transaction.version;
-  _.each(transaction.joinSplits, function(joinSplit) {
-    self.joinSplits.push(new JSDescription(joinSplit));
-  });
-  if (self.joinSplits.length > 0) {
-    self.joinSplitPubKey = BufferUtil.reverse(new Buffer(transaction.joinSplitPubKey, 'hex'));
+  if (this.version < 3) {
+    _.each(transaction.joinSplits, function(joinSplit) {
+      self.joinSplits.push(new JSDescription(joinSplit));
+    });
+    if (self.joinSplits.length > 0) {
+      self.joinSplitPubKey = BufferUtil.reverse(new Buffer(transaction.joinSplitPubKey, 'hex'));
+      self.joinSplitSig = new Buffer(transaction.joinSplitSig, 'hex');
+    }
   }
   if (transaction.type) {
     this.setType(transaction.type);
@@ -46035,7 +46051,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 /* 142 */
 /***/ (function(module, exports) {
 
-module.exports = {"name":"@stashcore/stashcore-lib","version":"0.18.0","description":"A pure and powerful JavaScript Stash library.","author":"BitPay <dev@bitpay.com>","main":"index.js","scripts":{"lint":"eslint .","lint:fix":"eslint . --fix","test":"npm run build && npm run test:node && npm run test:browser","test:node":"mocha $NODE_DEBUG_OPTION --no-timeouts --recursive","test:browser":"karma start ./karma.conf.js --single-run","coverage":"nyc mocha --recursive","build":"webpack --display-error-details"},"contributors":[{"name":"Daniel Cousens","email":"bitcoin@dcousens.com"},{"name":"Esteban Ordano","email":"eordano@gmail.com"},{"name":"Gordon Hall","email":"gordon@bitpay.com"},{"name":"Jeff Garzik","email":"jgarzik@bitpay.com"},{"name":"Kyle Drake","email":"kyle@kyledrake.net"},{"name":"Manuel Araoz","email":"manuelaraoz@gmail.com"},{"name":"Matias Alejo Garcia","email":"ematiu@gmail.com"},{"name":"Ryan X. Charles","email":"ryanxcharles@gmail.com"},{"name":"Stefan Thomas","email":"moon@justmoon.net"},{"name":"Stephen Pair","email":"stephen@bitpay.com"},{"name":"Wei Lu","email":"luwei.here@gmail.com"},{"name":"UdjinM6","email":"UdjinM6@gmail.com"},{"name":"Jon Kindel","email":"jon@stash.org"},{"name":"Alex Werner","email":"alex@werner.fr"}],"keywords":["stash","transaction","address","p2p","ecies","cryptocurrency","blockchain","payment","bip21","bip32","bip37","bip69","bip70","multisig","stashcore"],"repository":{"type":"git","url":"https://github.com/stashpayio/stashcore-lib.git"},"bugs":{"url":"https://github.com/stashpayio/stashcore-lib/issues"},"homepage":"https://github.com/stashpayio/stashcore-lib","browser":{"request":"browser-request"},"dependencies":{"@dashevo/x11-hash-js":"^1.0.2","@types/node":"^12.12.37","bloom-filter":"^0.2.0","bn.js":"=4.11.8","bs58":"=4.0.1","elliptic":"=6.4.1","inherits":"=2.0.1","lodash":"^4.17.15","unorm":"^1.6.0"},"devDependencies":{"brfs":"^2.0.1","chai":"^4.2.0","eslint":"^5.11.0","eslint-config-airbnb-base":"^13.2.0","eslint-plugin-import":"^2.20.2","karma":"^4.4.1","karma-chai":"^0.1.0","karma-chrome-launcher":"^2.2.0","karma-detect-browsers":"^2.3.3","karma-firefox-launcher":"^1.3.0","karma-mocha":"^1.3.0","karma-mocha-reporter":"^2.2.5","karma-webpack":"^3.0.5","mocha":"^5.2.0","nyc":"^14.1.1","raw-loader":"^0.5.1","sinon":"^4.5.0","transform-loader":"^0.2.4","uglifyjs-webpack-plugin":"^1.3.0","webpack":"^3.12.0"},"license":"MIT"}
+module.exports = {"name":"@stashcore/stashcore-lib","version":"0.18.0","description":"A pure and powerful JavaScript Stash library.","author":"BitPay <dev@bitpay.com>","main":"index.js","scripts":{"lint":"eslint .","lint:fix":"eslint . --fix","test":"npm run build && npm run test:node && npm run test:browser","test:node":"mocha $NODE_DEBUG_OPTION --no-timeouts --recursive","test:browser":"karma start ./karma.conf.js --single-run","coverage":"nyc mocha --recursive","build":"webpack --display-error-details"},"contributors":[{"name":"Daniel Cousens","email":"bitcoin@dcousens.com"},{"name":"Esteban Ordano","email":"eordano@gmail.com"},{"name":"Gordon Hall","email":"gordon@bitpay.com"},{"name":"Jeff Garzik","email":"jgarzik@bitpay.com"},{"name":"Kyle Drake","email":"kyle@kyledrake.net"},{"name":"Manuel Araoz","email":"manuelaraoz@gmail.com"},{"name":"Matias Alejo Garcia","email":"ematiu@gmail.com"},{"name":"Ryan X. Charles","email":"ryanxcharles@gmail.com"},{"name":"Stefan Thomas","email":"moon@justmoon.net"},{"name":"Stephen Pair","email":"stephen@bitpay.com"},{"name":"Wei Lu","email":"luwei.here@gmail.com"},{"name":"UdjinM6","email":"UdjinM6@gmail.com"},{"name":"Jon Kindel","email":"jon@stash.org"},{"name":"Alex Werner","email":"alex@werner.fr"}],"keywords":["stash","transaction","address","p2p","ecies","cryptocurrency","blockchain","payment","bip21","bip32","bip37","bip69","bip70","multisig","stashcore"],"repository":{"type":"git","url":"https://github.com/stashpayio/stashcore-lib.git"},"bugs":{"url":"https://github.com/stashpayio/stashcore-lib/issues"},"homepage":"https://github.com/stashpayio/stashcore-lib","browser":{"request":"browser-request"},"dependencies":{"@dashevo/x11-hash-js":"^1.0.2","@types/node":"^12.12.38","bloom-filter":"^0.2.0","bn.js":"=4.11.8","bs58":"=4.0.1","elliptic":"=6.4.1","inherits":"=2.0.1","lodash":"^4.17.15","unorm":"^1.6.0"},"devDependencies":{"brfs":"^2.0.1","chai":"^4.2.0","eslint":"^5.11.0","eslint-config-airbnb-base":"^13.2.0","eslint-plugin-import":"^2.20.2","karma":"^4.4.1","karma-chai":"^0.1.0","karma-chrome-launcher":"^2.2.0","karma-detect-browsers":"^2.3.3","karma-firefox-launcher":"^1.3.0","karma-mocha":"^1.3.0","karma-mocha-reporter":"^2.2.5","karma-webpack":"^3.0.5","mocha":"^5.2.0","nyc":"^14.1.1","raw-loader":"^0.5.1","sinon":"^4.5.0","transform-loader":"^0.2.4","uglifyjs-webpack-plugin":"^1.3.0","webpack":"^3.12.0"},"license":"MIT"}
 
 /***/ }),
 /* 143 */
@@ -46375,7 +46391,7 @@ if (typeof Object.create === 'function') {
 /* 149 */
 /***/ (function(module, exports) {
 
-module.exports = {"_args":[["elliptic@6.4.1","/home/dev/explorer/stashcore-node"]],"_from":"elliptic@6.4.1","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/@stashcore/stashcore-lib/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.1","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.1","saveSpec":null,"fetchSpec":"6.4.1"},"_requiredBy":["/@stashcore/stashcore-lib"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_spec":"6.4.1","_where":"/home/dev/explorer/stashcore-node","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"}
+module.exports = {"_args":[["elliptic@6.4.1","/home/dev/insight-explorer/stashcore-lib"]],"_from":"elliptic@6.4.1","_id":"elliptic@6.4.1","_inBundle":false,"_integrity":"sha512-BsXLz5sqX8OHcsh7CqBMztyXARmGQ3LWPtGjJi6DiJHq5C/qvi9P3OqgswKSDftbu8+IoI/QDTAm2fFnQ9SZSQ==","_location":"/elliptic","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"elliptic@6.4.1","name":"elliptic","escapedName":"elliptic","rawSpec":"6.4.1","saveSpec":null,"fetchSpec":"6.4.1"},"_requiredBy":["/","/browserify-sign","/create-ecdh"],"_resolved":"https://registry.npmjs.org/elliptic/-/elliptic-6.4.1.tgz","_spec":"6.4.1","_where":"/home/dev/insight-explorer/stashcore-lib","author":{"name":"Fedor Indutny","email":"fedor@indutny.com"},"bugs":{"url":"https://github.com/indutny/elliptic/issues"},"dependencies":{"bn.js":"^4.4.0","brorand":"^1.0.1","hash.js":"^1.0.0","hmac-drbg":"^1.0.0","inherits":"^2.0.1","minimalistic-assert":"^1.0.0","minimalistic-crypto-utils":"^1.0.0"},"description":"EC cryptography","devDependencies":{"brfs":"^1.4.3","coveralls":"^2.11.3","grunt":"^0.4.5","grunt-browserify":"^5.0.0","grunt-cli":"^1.2.0","grunt-contrib-connect":"^1.0.0","grunt-contrib-copy":"^1.0.0","grunt-contrib-uglify":"^1.0.1","grunt-mocha-istanbul":"^3.0.1","grunt-saucelabs":"^8.6.2","istanbul":"^0.4.2","jscs":"^2.9.0","jshint":"^2.6.0","mocha":"^2.1.0"},"files":["lib"],"homepage":"https://github.com/indutny/elliptic","keywords":["EC","Elliptic","curve","Cryptography"],"license":"MIT","main":"lib/elliptic.js","name":"elliptic","repository":{"type":"git","url":"git+ssh://git@github.com/indutny/elliptic.git"},"scripts":{"jscs":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","jshint":"jscs benchmarks/*.js lib/*.js lib/**/*.js lib/**/**/*.js test/index.js","lint":"npm run jscs && npm run jshint","test":"npm run lint && npm run unit","unit":"istanbul test _mocha --reporter=spec test/index.js","version":"grunt dist && git add dist/"},"version":"6.4.1"}
 
 /***/ }),
 /* 150 */
