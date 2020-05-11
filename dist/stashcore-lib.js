@@ -35538,7 +35538,7 @@ Transaction.prototype._updateChangeOutput = function() {
  * @return {Number} fee of this transaction in satoshis
  */
 Transaction.prototype.getFee = function() {
-  if (this.isCoinbase()) {
+  if (this.isCoinbase() || this.isLegacyTx()) {
     return 0;
   }
   if (!_.isUndefined(this._fee)) {
@@ -35862,6 +35862,19 @@ Transaction.prototype.verify = function() {
  */
 Transaction.prototype.isCoinbase = function() {
   return (this.inputs.length === 1 && this.inputs[0].isNull());
+};
+
+/**
+ * Check for legacy transactions which has following properties
+ * 1. Has No inputs
+ * 2. Has Outputs
+ * 3. Has not Joinsplit
+ * 4. Version 1 tx
+ */
+Transaction.prototype.isLegacyTx = function() {
+  return (this.inputs.length == 0 && 
+          this.joinSplits.length == 0 && 
+          this.version == 1);
 };
 
 /**
