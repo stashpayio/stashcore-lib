@@ -1,8 +1,8 @@
 {
   "name": "@stashcore/stashcore-lib",
-  "version": "0.18.0",
+  "version": "0.18.1",
   "description": "A pure and powerful JavaScript Stash library.",
-  "author": "BitPay <dev@bitpay.com>",
+  "author": "Stash Developers <dev@stash.org>",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -101,7 +101,7 @@
   },
   "dependencies": {
     "@dashevo/x11-hash-js": "^1.0.2",
-    "@types/node": "^12.12.38",
+    "@types/node": "^12.12.43",
     "bloom-filter": "^0.2.0",
     "bn.js": "=4.11.8",
     "bs58": "=4.0.1",
